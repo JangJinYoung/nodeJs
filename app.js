@@ -1,5 +1,22 @@
-﻿var rint = require('./rint');
+﻿var http=require('http');
+var fs=require('fs');
+var url = require('url');
 
-rint.timer.on('tick', function(){
-	console.log('이벤트 실행');
-});
+http.createServer(function(request, response){
+	var pathname = url.parse(request.url).pathname;
+
+	if(pathname=='/'){
+		fs.readFile('index.html', function(error,data){
+			response.writeHead(200,{'Content-Type':'text/html'});
+			response.end(data);
+		});
+	}
+	else if(pathname=='/OtherPage'){
+		fs.readFile('OtherPage.html', function(error,data){
+			response.writeHead(200,{'Content-Type':'text/html'});
+			response.end(data);
+		});
+	}
+}).listen(52273,function(){
+	console.log('server Runninggggggggggggggggggggggggg')
+})
